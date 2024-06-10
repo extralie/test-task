@@ -1,0 +1,227 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Менеджер Пользователей",
+        "description": "Это API для управления списком пользователей. Оно позволяет выполнять CRUD операции с записями о пользователях.",
+        "version": "1.0"
+    },
+    "servers": [{
+        "url": "http://localhost/"
+    }],
+    "tags": [{
+        "name": "пользователи",
+        "description": "Операции для управления пользователями"
+    }],
+    "paths": {
+        "/users": {
+            "get": {
+                "tags": [
+                    "пользователи"
+                ],
+                "summary": "Получить список пользователей",
+                "description": "Получить список всех пользователей",
+                "responses": {
+                    "200": {
+                        "description": "Список пользователей получен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "пользователи"
+                ],
+                "summary": "Добавить пользователя",
+                "description": "Создать нового пользователя",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Максим"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "maxim@icloud.com"
+                                    },
+                                    "age": {
+                                        "type": "integer",
+                                        "example": 16
+                                    },
+                                    "role": {
+                                        "type": "string",
+                                        "example": "Кодер"
+                                    }
+                                },
+                                "required": ["name", "email"]
+                            }
+                        }
+                    }
+                },
+
+                "responses": {
+                    "200": {
+                        "description": "Пользователь создан",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+
+                    "400": {
+                        "description": "Неверные входные данные"
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "tags": [
+                    "пользователи"
+                ],
+                "summary": "Получить данные пользователя по id",
+                "description": "Получить данные конкретного пользователя",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "Id пользователя",
+                        "type": "number",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Пользователь получен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description":"Пользователь не найден"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "пользователи"
+                ],
+                "summary": "Обновить данные пользователя по id",
+                "description": "Частично / полностью обновить данные пользователя",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "Id пользователя",
+                        "type": "number",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+
+                "responses": {
+                    "200": {
+                        "description": "Пользователь создан",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+
+                    "400": {
+                        "description": "Неверные входные данные"
+                    },
+
+                    "404": {
+                        "description": "Пользователь не найден"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "пользователи"
+                ],
+                "summary": "Удалить пользователя по id",
+                "description": "Полностью удалить пользователя из списка",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "Id пользователя",
+                        "type": "number",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Пользователь успешно удален"
+                    },
+                    "404": {
+                        "description": "Пользователь не найден"
+                    }
+                }
+            }
+        }
+    },
+
+    "components": {
+        "schemas": {
+            "User": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 666666
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Максим"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "maxim@icloud.com"
+                    },
+                    "age": {
+                        "type": "integer",
+                        "example": 16
+                    },
+                    "role": {
+                        "type": "string",
+                        "example": "Кодер"
+                    }
+                },
+                "required": ["id", "name", "email"]
+            }
+        }
+    }
+}
